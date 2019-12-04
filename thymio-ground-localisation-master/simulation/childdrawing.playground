@@ -1,0 +1,14 @@
+<!DOCTYPE aseba-playground>
+<aseba-playground>
+	<author name="Stéphane Magnenat" email="stephane at magnenat dot net" />
+	
+	<description lang="en">A scenario to test the algorithm from the paper <i>Localization of inexpensive robots with low-bandwidth sensors</i>, by Wang et al., presented at DARS 2016.</description>
+	
+	<externalLink lang="en" type="github" target="epfl-mobots/thymio-ground-localisation" />
+	
+	<color name="white" r="1.0" g="1.0" b="1.0" />
+	
+	<world w="59" h="42" color="white" groundTexture="../data/child-drawing_tooth-fairy_A2.png" />
+	
+	<thymio2 x="30" y="20" port="33334" />
+</aseba-playground>

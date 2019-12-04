@@ -1,0 +1,90 @@
+Notes about transformations
+---------------------------
+
+at time 0: x_0, y_0, theta_0
+at time 1: x_1, y_1, theta_1
+
+We use homogeneous coordinate, so (x,y) is represented by (x,y,1)
+
+      | cos(theta_0), -sin(theta_0), x_0 |
+T_0 = | sin(theta_0),  cos(theta_0), y_0 |
+      | 0,             0,            1   |
+
+T_0 is the transformation taking a point in local frame at time 0 at transforming to global frame at time 0, as thought be the Thymio
+T_1 is the transformation taking a point in local frame at time 1 at transforming to global frame at time 1, as thought be the Thymio
+
+What do we want for as input for localisation?
+
+T_l is  the transformation taking a point in Thymio local frame at time 1 transforming to Thymio local frame at time 0 ?
+From WP [1]: the effect of applying first A and then B to a vector x is given by: (BA)* x
+
+A = T_1, B = inv(T_0)
+T_l = inv(T_0) * T_1
+
+
+[1] https://en.wikipedia.org/wiki/Transformation_matrix
+
+
+
+Notes about motion model error
+------------------------------
+
+There are some notes about that:
+
+http://www.mrpt.org/tutorials/programming/odometry-and-motion-models/probabilistic_motion_models/#2_Gaussian_probabilistic_motion_model
+
+From Thrun, Fox & Burgard
+
+\sigma_trans = a_1 * |trans| + a_2 * |rot|
+\sigma_rot = a_3 * |trans| + a_4 * |rot|
+
+
+
+Notes about evaluation
+----------------------
+
+* ML *
+
+Parameters to explore:
+- ml_angle_count: 18, 36, 54, 72
+
+* MCL *
+
+Parameters to explore:
+- number of particles: 5k, 10k, 20k, 50k, 100k, 150k, 200k, 400k
+
+* All *
+
+Data to save:
+- i, x, y, dist xy, dist theta, log ratio P
+
+How often to run filter:
+- 3 Hz
+
+* Runs *
+
+random_1 and random_2, with prob_uniform = 0
+random_long, with prob_uniform = 0.1
+
+
+
+Notes about plotting for paper
+------------------------------
+
+Time to converge x/y, theta
+random_1-18		broken
+random_1-36		13, 13
+random_1-54		13, 13
+random_1-72		13, 13
+random_2-18		16, 16
+random_2-36		15, 15
+random_2-54		14, 12
+random_2-72		16, 16
+random_long_ml_18	
+
+
+
+Sources of documents
+--------------------
+
+https://upload.wikimedia.org/wikipedia/commons/4/40/Child's_Drawing_of_the_Tooth_Fairy.jpg

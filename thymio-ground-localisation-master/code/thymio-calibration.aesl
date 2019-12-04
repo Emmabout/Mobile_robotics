@@ -1,0 +1,48 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+<event size="2" name="ground_values"/>
+<event size="0" name="start"/>
+<event size="0" name="stop"/>
+
+
+<!--list of constants-->
+<constant value="50" name="SPEED"/>
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">var running = 0
+
+# init
+
+# disable ground leds
+call leds.prox.v(0,0)
+
+# events
+
+onevent start
+motor.left.target = SPEED
+motor.right.target = SPEED
+running = 1
+
+onevent stop
+motor.left.target = 0
+motor.right.target = 0
+running = 0
+
+# internal events
+
+onevent prox
+if running == 1 then
+	emit ground_values prox.ground.delta	
+end
+</node>
+
+
+</network>

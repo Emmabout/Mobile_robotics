@@ -1,0 +1,10 @@
+*~
+.*.sw?
+.directory
+.DS_Store
+article/build
+article/*.aux
+article/*.log
+article/synctex.gz
+article/thymio-localisation-*-emb.pdf
+article/thymio-localisation-*.pdf

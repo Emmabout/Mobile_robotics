@@ -1,0 +1,39 @@
+Recent progress in electronics has allowed the construction of affordable mobile robots.
+*	image battery, sensor, motor, Thymio
+
+This opens many new opportunities, in particular in the educational context.
+	child playing with robots
+
+However, the lack of long-range sensing abilities has prevented these robots from performing global localization without external aids.
+	robot hitting walls
+
+This severely limits their use, for example to teach spatial reasoning or develop artistic activities.
+	drawing child (female) robot mathematics, robot playing theater piece  (male children)
+
+In this paper, we propose a solution to this problem, using only infrared ground sensors, dead-reckoning, and a visual pattern on the ground.
+	schematics of the robot
+
+Our approach builds on a recursive Bayesian filter, of which we demonstrate two implementations: a dense Markov Localization and a particle-filter-based Monte Carlo Localization.
+	image grid on left, particles on right
+
+Both implementations allow accurate localization.
+It is demonstrated here on an abstract painting.
+Our system works on a large range of images, from random binary patterns to children's drawings.
+	video runs
+
+In this video, the robot localizes itself after travelling a dozen of centimeters.
+	video runs   
+
+If kidnapped, the robot will quickly relocalize itself.
+	video runs
+
+These results show a solution to the localization of inexpensive robots.
+By enabling a new range of educational activities, it strongly increases the value of robots for education.
+	child drawing, taking a picture with her mobile phone, and using this as group image for AR activities
+
+
+credits
+
+Ramiz Morena
+https://commons.wikimedia.org/wiki/File:Lithium_Polymer_Batter.jpg
+

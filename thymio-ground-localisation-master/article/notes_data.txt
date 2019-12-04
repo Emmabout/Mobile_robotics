@@ -1,0 +1,12 @@
+Notes about the data in 'data' folder
+----------------------------------------
+
+In the data folder, the data for each experiment is stored in the following structure:
+
+-gt.txt                data with 3 columns. First 2 columns are x coordinate and y coordinate, the 3rd column is orientation in rad
+-odom_pose.txt         data with 2 columns. First column is x and second column is y recorded from thymio_navigation_driver.
+-odom_quaternion.txt   data with 2 columns. First column is z and second column is w recorded from thymio_navigation_driver.
+-sensor_left.txt       data with 1 column. Value from left sensor in the front of thymio
+-sensor_right.txt      data with 1 column. Value from right sensor in the front of thymio
+
+Note that any file which is not in the form described above is not ready.

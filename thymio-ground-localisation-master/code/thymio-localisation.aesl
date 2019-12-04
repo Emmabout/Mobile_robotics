@@ -1,0 +1,107 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+<event size="2" name="joy_axis0"/>
+<event size="2" name="joy_axis1"/>
+<event size="2" name="joy_axis2"/>
+<event size="2" name="joy_axis3"/>
+<event size="2" name="joy_axis4"/>
+<event size="2" name="joy_hat"/>
+<event size="2" name="joy_button0"/>
+<event size="2" name="joy_button1"/>
+<event size="2" name="joy_button2"/>
+<event size="2" name="joy_button3"/>
+<event size="2" name="joy_button4"/>
+<event size="2" name="joy_button5"/>
+<event size="2" name="joy_button6"/>
+<event size="2" name="joy_button7"/>
+<event size="2" name="joy_button8"/>
+<event size="5" name="ground_values"/>
+
+
+<!--list of constants-->
+<constant value="80" name="MAX_SPEED"/>
+<constant value="400" name="SPEED_COEF"/>
+<constant value="6600" name="BASE_WIDTH"/>
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="22068" name="thymio-II">var forward_speed = 0
+var rot_speed = 0
+
+var ground_values_counter = 0
+
+# odometry
+var temp var dx var dy
+var dsl var dsr var ds var dth
+var x = 0
+var y = 0
+var th = 0
+
+# init
+
+# disable ground leds
+call leds.prox.v(0,0)
+
+# joystick support
+
+sub update_speeds
+motor.left.target = forward_speed - rot_speed
+motor.right.target = forward_speed + rot_speed
+
+onevent joy_axis0
+call math.muldiv(rot_speed, event.args[1], MAX_SPEED, -32767)
+callsub update_speeds
+
+onevent joy_axis1
+call math.muldiv(forward_speed, event.args[1], MAX_SPEED, -32767)
+callsub update_speeds
+
+
+# internal events
+
+onevent prox
+
+ground_values_counter += 1
+if ground_values_counter == 4 then
+	emit ground_values [prox.ground.delta, x, y, th]
+	ground_values_counter = 0
+	x = 0
+	y = 0
+	th = 0
+end
+
+
+onevent motor
+
+# odometry
+
+# BASE_WIDTH = 95     # millimeters
+# SPEED_COEF = 2.93   # 1mm/sec corresponds to X units of real thymio speed
+
+# number of linear 1/100 of mm
+call math.muldiv(dsl, motor.left.speed, 100, SPEED_COEF)
+call math.muldiv(dsr, motor.right.speed, 100, SPEED_COEF)
+# robot traveled distance in 1/100 of mm
+ds = dsl + dsr / 2
+# turn in aseba angle
+call math.atan2(dth, dsr-dsl, BASE_WIDTH)
+# temporary odometry
+call math.cos(temp, th + dth/2)
+call math.muldiv(dx, ds, temp, 32767)
+call math.sin(temp, th + dth/2)
+call math.muldiv(dy, ds, temp, 32767)
+x += dx
+y += dy
+th += dth
+
+</node>
+
+
+</network>

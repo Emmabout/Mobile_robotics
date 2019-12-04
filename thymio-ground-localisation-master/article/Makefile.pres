@@ -1,0 +1,36 @@
+name=thymio-localisation-dars-pres
+# directory of the template, relative to the directory of the main .tex file
+templatedir=.
+
+# temporary variables
+targetpdf=$(name).pdf
+source=$(name).tex
+svgfigs=$(wildcard figures/*.svg)
+rfigs=$(wildcard figures/*.r)
+genfigs=$(svgfigs:figures/%.svg=generated-figures/%.pdf) $(rfigs:figures/%.r=generated-figures/%.pdf)
+deps=$(wildcard *.tex) $(wildcard figures/*.pdf) $(wildcard figures/*.jpg) $(wildcard figures/*.png) $(wildcard videos/) $(genfigs) Makefile
+
+$(targetpdf): create-working-dirs $(source) $(deps)
+	cd build && TEXINPUTS=..:../${templatedir}:${TEXINPUTS} lualatex ../$(name)
+	cd build && TEXINPUTS=..:../${templatedir}:${TEXINPUTS} lualatex ../$(name)
+	mv build/$(targetpdf) .
+
+create-working-dirs:
+	mkdir -p build generated-figures
+
+generated-figures/%.pdf: figures/%.svg
+	inkscape --export-area-page --export-pdf=$@ -f=$<
+
+generated-figures/%.pdf: figures/%.r
+	cd build && R BATCH --no-save < ../$< && mv $(patsubst generated-figures/%.pdf,%.pdf,$@) ../generated-figures/
+
+all: $(targetpdf)
+
+clean: buildclean
+
+buildclean:
+	rm -rf build */*.Rout */.*.Rout */.RData *~ figures/*~
+
+distclean: clean
+	rm -f $(targetpdf)
+	rm -rf generated-figures/* 
